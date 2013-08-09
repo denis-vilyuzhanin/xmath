@@ -9,20 +9,24 @@ exports.matrix = {
     createFromArray: {
         singleDimension: {
             empty: function(test) {
+                test.expect(2);
                 var VALUES = [1, 2, 3];
-                var m = XMath.matrix(0, VALUES);
-                test.ok(m);
-                test.equal(m.dimensions().length, 0);
+                try {
+                    var m = XMath.matrix([], VALUES);
+                } catch(e) {
+                    test.ok(e);
+                    test.equal(e.message, "Wrong array size: expected=1");
+                }
                 test.done();
             },
             
             singleDimension: function(test) {
                 var VALUES = [1, 2, 3];
-                var m = XMath.matrix(1, VALUES);
+                var m = XMath.matrix([3], VALUES);
                 test.ok(m);
                 test.equal(m.dimensions().length, 1);
                 test.equal(m.length(0), 3);
-                test.equal(m.get(), VALUES);
+                test.equal(m.toArray(), VALUES);
                 test.equal(m.get(0), 1);
                 test.equal(m.get(1), 2);
                 test.equal(m.get(2), 3);

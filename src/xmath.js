@@ -13,10 +13,34 @@ function DANDSOFT_ORG_XMATH() {
     Matrix.prototype.dimensions = function() {
         return this._dimensions.clone();
     }
-    Matrix.prototype.length = function() {
-        
+    Matrix.prototype.length = function(dimensionIndex) {
+        return this._dimensions[dimensionIndex];
+    }
+    Matrix.prototype.toArray = function() {
+        return this._values.clone();
+    }
+    Matrix.prototype.get = function() {
+        var index = arguments;
+        assertIndex(index);
+        var values = this._values;
+        for(var dimIndex in index) {
+            values = values[dimIndex];
+        }
+        return values;
     }
     
+    function assertIndex(index, dimensions) {
+        assertIndexType(index);
+        if(index.length != dimensions.length) {
+            throw new Error("Index must contains the same values as dimensions count");    
+        }        
+    }
+    
+    function assertIndexType(index) {
+        if (!isArray(index)) {
+            throw new Error("Matrix expects Array object as index");
+        }
+    }
     
     function assertDimensionSizes(dimensions, actualSize) {
         var expectedSize = 1; 
