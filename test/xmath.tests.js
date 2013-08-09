@@ -82,7 +82,7 @@ exports.matrix = {
             },
             
             wrongArraySize: function(test) {
-                test.expect(1);
+                test.expect(2);
                 var VALUES = [
                     1,2,3,
                     4,5,6,
@@ -95,6 +95,7 @@ exports.matrix = {
                     test.fail("Erro expected");
                 } catch(e) {
                     test.ok(e)
+                    test.equal(e.message, "Wrong array size: expected=" + (4 * 2 * 3));
                 }
                 test.done();
             }
