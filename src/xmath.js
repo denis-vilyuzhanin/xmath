@@ -23,7 +23,7 @@ function DANDSOFT_ORG_XMATH() {
         for(var dim = this._sizes.length - 1; dim >= 0; dim--) {
             var dimIndex = index[dim];
             offset += dimIndex * base;
-            base = this._sizes[dim];
+            base = base * this._sizes[dim];
         }
         return this._values[offset];
     }

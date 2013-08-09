@@ -67,7 +67,7 @@ exports.matrix = {
                 test.equal(m.dimensions().length, 3);
                 test.equal(m.length(0), 2);
                 test.equal(m.length(1), 2);
-                test.equal(m.length(1), 3);
+                test.equal(m.length(2), 3);
                 
                 test.deepEqual(m.toArray(), VALUES);
                 
