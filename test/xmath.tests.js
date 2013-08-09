@@ -1,6 +1,6 @@
 
-if (!XMath) {
-    XMath = require('xmath');
+if (typeof(XMath) == "undefined") {
+    XMath = require('../src/xmath');
 }
 
 
