@@ -2,31 +2,36 @@
 
 function DANDSOFT_ORG_XMATH() {
 
-    var isArray = Array.isArray ? Array.isArray : function(object) {
-        return object && Object.prototype.toString.call(object) == '[object Array]';
-    }
     
     function Matrix(dimensions, values) {
         this._dimensions = dimensions;
         this._values = values;
     }    
     Matrix.prototype.dimensions = function() {
-        return this._dimensions.clone();
+        return clone(this._dimensions);
     }
     Matrix.prototype.length = function(dimensionIndex) {
         return this._dimensions[dimensionIndex];
     }
     Matrix.prototype.toArray = function() {
-        return this._values.clone();
+        return clone(this._values);
     }
-    Matrix.prototype.get = function() {
-        var index = arguments;
-        assertIndex(index);
-        var values = this._values;
-        for(var dimIndex in index) {
-            values = values[dimIndex];
+    Matrix.prototype.get = function(index) {
+        assertIndex(index, this._dimensions);
+        var next = this._values;
+        for(var i in index) {
+            var dimIndex = index[i];
+            next = next[dimIndex];
         }
-        return values;
+        return next;
+    }
+    
+    var isArray = Array.isArray ? Array.isArray : function(object) {
+        return object && Object.prototype.toString.call(object) == '[object Array]';
+    }
+
+    function clone(array) {
+        return array.slice(0);
     }
     
     function assertIndex(index, dimensions) {
@@ -58,7 +63,7 @@ function DANDSOFT_ORG_XMATH() {
                 
             } else if (arguments.length == 2) {
                 assertDimensionSizes(arg0, arg1.length);
-                return new Matrix(arg0, arg1.clone());
+                return new Matrix(arg0, clone(arg1));
             } else {
                 throw new Error("Illegal arguments set. one or two are allowed");
             }

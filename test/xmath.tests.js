@@ -26,10 +26,10 @@ exports.matrix = {
                 test.ok(m);
                 test.equal(m.dimensions().length, 1);
                 test.equal(m.length(0), 3);
-                test.equal(m.toArray(), VALUES);
-                test.equal(m.get(0), 1);
-                test.equal(m.get(1), 2);
-                test.equal(m.get(2), 3);
+                test.deepEqual(m.toArray(), VALUES);
+                test.equal(m.get([0]), 1);
+                test.equal(m.get([1]), 2);
+                test.equal(m.get([2]), 3);
                 
                 test.done();
             },
