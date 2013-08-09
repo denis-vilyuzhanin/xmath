@@ -3,27 +3,29 @@
 function DANDSOFT_ORG_XMATH() {
 
     
-    function Matrix(dimensions, values) {
-        this._dimensions = dimensions;
+    function Matrix(sizes, values) {
+        this._sizes = sizes;
         this._values = values;
     }    
     Matrix.prototype.dimensions = function() {
-        return clone(this._dimensions);
+        return clone(this._sizes);
     }
     Matrix.prototype.length = function(dimensionIndex) {
-        return this._dimensions[dimensionIndex];
+        return this._sizes[dimensionIndex];
     }
     Matrix.prototype.toArray = function() {
         return clone(this._values);
     }
     Matrix.prototype.get = function(index) {
-        assertIndex(index, this._dimensions);
-        var next = this._values;
-        for(var i in index) {
-            var dimIndex = index[i];
-            next = next[dimIndex];
+        assertIndex(index, this._sizes);
+        var offset = 0;
+        var base = 1;
+        for(var dim = this._sizes.length - 1; dim >= 0; dim--) {
+            var dimIndex = index[dim];
+            offset += dimIndex * base;
+            base = this._sizes[dim];
         }
-        return next;
+        return this._values[offset];
     }
     
     var isArray = Array.isArray ? Array.isArray : function(object) {
@@ -63,7 +65,7 @@ function DANDSOFT_ORG_XMATH() {
                 
             } else if (arguments.length == 2) {
                 assertDimensionSizes(arg0, arg1.length);
-                return new Matrix(arg0, clone(arg1));
+                return new Matrix(clone(arg0), clone(arg1));
             } else {
                 throw new Error("Illegal arguments set. one or two are allowed");
             }

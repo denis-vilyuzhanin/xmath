@@ -39,13 +39,13 @@ exports.matrix = {
                     4, 5, 6
                 ];
                 var m = XMath.matrix([2, 3], VALUES);
-                test.equal(m.dimensions(), 2);
+                test.equal(m.dimensions().length, 2);
                 
                 test.equal(m.dimensions().length, 2);
                 test.equal(m.length(0), 2);
                 test.equal(m.length(1), 3);
                 
-                test.equal(m.get(), VALUES);
+                test.deepEqual(m.toArray(), VALUES);
                 test.equal(m.get([0, 0]), 1);
                 test.equal(m.get([0, 1]), 2);
                 test.equal(m.get([0, 2]), 3);
@@ -68,6 +68,8 @@ exports.matrix = {
                 test.equal(m.length(0), 2);
                 test.equal(m.length(1), 2);
                 test.equal(m.length(1), 3);
+                
+                test.deepEqual(m.toArray(), VALUES);
                 
                 test.equal(m.get([0, 0, 0]), 1);
                 test.equal(m.get([0, 0, 1]), 2);
