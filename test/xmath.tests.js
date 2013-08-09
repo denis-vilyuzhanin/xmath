@@ -79,8 +79,26 @@ exports.matrix = {
                 test.equal(m.get([1, 1, 2]), 12);
                 
                 test.done();
+            },
+            
+            wrongArraySize: function(test) {
+                test.expect(1);
+                var VALUES = [
+                    1,2,3,
+                    4,5,6,
+                    
+                    7,8,9,
+                    10,11,12
+                ];
+                try {
+                    var m = XMath.matrix([4, 2, 3], VALUES);
+                    test.fail("Erro expected");
+                } catch(e) {
+                    test.ok(e)
+                }
+                test.done();
             }
-        },
+        }/*,
         
         multiDimensionArray: {
             empty: function(test) {
@@ -156,6 +174,7 @@ exports.matrix = {
                 test.done();
             }
         }
+        */
     }
     
 };
