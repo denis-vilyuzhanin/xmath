@@ -157,7 +157,7 @@ exports.matrix = {
                 test.deepEqual(m.toArray(), [1,2,3,4,5,6,7,8,9,10,11,12]);
                 test.equal(m.length(0), 2);
                 test.equal(m.length(1), 2);
-                test.equal(m.length(1), 3);
+                test.equal(m.length(2), 3);
                 
                 test.equal(m.get([0, 0, 0]), 1);
                 test.equal(m.get([0, 0, 1]), 2);
