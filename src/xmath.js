@@ -58,11 +58,45 @@ function DANDSOFT_ORG_XMATH() {
             throw new Error("Wrong array size: expected=" + expectedSize);
         }    
     }
+    
+    function parseArray(sizes, array) {
+        var values = [];
+        var current = array;
+        var stack = [{
+            array: array,
+            index: 0
+        }];
+        sizes.push(array.length);
+        while(stack.length > 0) {
+            var level = stack[stack.length - 1];
+            if (level.index >= level.array.length) {
+                stack.pop();
+                continue;
+            }
+            var next = level.array[level.index++];
+            if (isArray(next)) {
+                if (stack.length >= sizes.length) {
+                    sizes.push(next.length);
+                } else {
+                    //TODO: verify current array size
+                }
+                stack.push({
+                    array: next,
+                    index: 0
+                });
+            } else {
+                values.push(next);
+            }
+        }
+        return values;
+    }
 
     return {
         matrix: function(arg0, arg1) {
             if (arguments.length == 1) {
-                
+                var sizes = [];    
+                var values = parseArray(sizes, arg0);
+                return new Matrix(sizes, values);
             } else if (arguments.length == 2) {
                 assertDimensionSizes(arg0, arg1.length);
                 return new Matrix(clone(arg0), clone(arg1));
