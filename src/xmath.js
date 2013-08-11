@@ -1,8 +1,10 @@
 
 
 function DANDSOFT_ORG_XMATH() {
-
     
+    /**
+     * Matrix
+     */
     function Matrix(sizes, values) {
         this._sizes = sizes;
         this._values = values;
@@ -18,6 +20,9 @@ function DANDSOFT_ORG_XMATH() {
     }
     Matrix.prototype.get = function(index) {
         assertIndex(index, this._sizes);
+        return this._values[this._offset(index)];
+    }
+    Matrix.prototype._offset = function(index) {
         var offset = 0;
         var base = 1;
         for(var dim = this._sizes.length - 1; dim >= 0; dim--) {
@@ -25,8 +30,10 @@ function DANDSOFT_ORG_XMATH() {
             offset += dimIndex * base;
             base = base * this._sizes[dim];
         }
-        return this._values[offset];
+        return offset;
     }
+    
+    ////////////////////////////////////////
     
     var isArray = Array.isArray ? Array.isArray : function(object) {
         return object && Object.prototype.toString.call(object) == '[object Array]';
