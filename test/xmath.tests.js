@@ -7,7 +7,7 @@ if (typeof(XMath) == "undefined") {
 exports.matrix = {
     
     createFromArray: {
-        singleDimension: {
+        oneDimension: {
             wrongSize: function(test) {
                 test.expect(2);
                 var VALUES = [1, 2, 3];
@@ -65,7 +65,7 @@ exports.matrix = {
                     test.fail("Erro expected");
                 } catch(e) {
                     test.ok(e)
-                    test.equal(e.message, "Wrong array size. Expected=" + (2 * 3) + "but was " + (3 * 3));
+                    test.equal(e.message, "Wrong array size. Expected=" + (3 * 3) + " but was " + (2 * 3));
                 }
                 test.done();
             }

@@ -15,19 +15,11 @@ function DANDSOFT_ORG_XMATH() {
     Matrix.prototype.toArray = function() {
         return clone(this._values);
     }
-    Matrix.prototype.get = function(index) {
-        assertIndex(index, this._sizes);
-        return this._values[this._offset(index)];
+    Matrix.prototype.get = function(row, column) {
+        return this._values[this._offset(row, column)];
     }
-    Matrix.prototype._offset = function(index) {
-        var offset = 0;
-        var base = 1;
-        for(var dim = this._sizes.length - 1; dim >= 0; dim--) {
-            var dimIndex = index[dim];
-            offset += dimIndex * base;
-            base = base * this._sizes[dim];
-        }
-        return offset;
+    Matrix.prototype._offset = function(row, column) {
+        return row * this._size.columns + column;
     }
     
     ////////////////////////////////////////
@@ -75,7 +67,7 @@ function DANDSOFT_ORG_XMATH() {
             throw new Error('Columns or rows count must be greater than 0 but was ' + size);
         }
         if (size.getTotalSize() != actualSize) {
-            throw new Error("Wrong array size. Expected=" + size.getTotalSize() + "but was " + actualSize);
+            throw new Error("Wrong array size. Expected=" + size.getTotalSize() + " but was " + actualSize);
         }    
     }
     
