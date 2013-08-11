@@ -5,15 +5,12 @@ function DANDSOFT_ORG_XMATH() {
     /**
      * Matrix
      */
-    function Matrix(sizes, values) {
-        this._sizes = sizes;
+    function Matrix(size, values) {
+        this._size = size;
         this._values = values;
     }    
-    Matrix.prototype.dimensions = function() {
-        return clone(this._sizes);
-    }
-    Matrix.prototype.length = function(dimensionIndex) {
-        return this._sizes[dimensionIndex];
+    Matrix.prototype.size = function() {
+        return this._size.clone();
     }
     Matrix.prototype.toArray = function() {
         return clone(this._values);
@@ -33,6 +30,23 @@ function DANDSOFT_ORG_XMATH() {
         return offset;
     }
     
+    ////////////////////////////////////////
+    /**
+     * Size
+     */
+    function Size(rows, columns) {
+        this.rows = rows;
+        this.columns = columns;
+    }
+    Size.prototype.getTotalSize = function() {
+        return this.rows * this.columns;
+    }
+    Size.prototype.toString = function() {
+        return this.rows + "x" + this.columns;    
+    }
+    Size.prototype.clone = function() {
+        return new Size(this.rows, this.columns);
+    }
     ////////////////////////////////////////
     
     var isArray = Array.isArray ? Array.isArray : function(object) {
@@ -56,13 +70,12 @@ function DANDSOFT_ORG_XMATH() {
         }
     }
     
-    function assertDimensionSizes(dimensions, actualSize) {
-        var expectedSize = 1; 
-        for(var dimIndex in dimensions) {
-            expectedSize *= dimensions[dimIndex];
+    function assertSize(size, actualSize) {
+        if (size.rows < 1 || size.columns < 1) {
+            throw new Error('Columns or rows count must be greater than 0 but was ' + size);
         }
-        if (expectedSize != actualSize) {
-            throw new Error("Wrong array size: expected=" + expectedSize);
+        if (size.getTotalSize() != actualSize) {
+            throw new Error("Wrong array size. Expected=" + size.getTotalSize() + "but was " + actualSize);
         }    
     }
     
@@ -99,14 +112,15 @@ function DANDSOFT_ORG_XMATH() {
     }
 
     return {
-        matrix: function(arg0, arg1) {
+        matrix: function(arg0, arg1, arg2) {
             if (arguments.length == 1) {
-                var sizes = [];    
-                var values = parseArray(sizes, arg0);
-                return new Matrix(sizes, values);
-            } else if (arguments.length == 2) {
-                assertDimensionSizes(arg0, arg1.length);
-                return new Matrix(clone(arg0), clone(arg1));
+                var size = new Size(null, null);    
+                var values = parseArray(size, arg0);
+                return new Matrix(size, values);
+            } else if (arguments.length == 3) {
+                var size = new Size(arg0, arg1);
+                assertSize(size, arg2.length);
+                return new Matrix(size, clone(arg2));
             } else {
                 throw new Error("Illegal arguments set. one or two are allowed");
             }

@@ -15,7 +15,7 @@ exports.matrix = {
                     var m = XMath.matrix(0, 0, VALUES);
                 } catch(e) {
                     test.ok(e);
-                    test.equal(e.message, "Columns or rows number must be greater than 0 but was 0x0");
+                    test.equal(e.message, "Columns or rows count must be greater than 0 but was 0x0");
                 }
                 test.done();
             },
